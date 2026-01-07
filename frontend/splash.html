@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎆 Happy New Year Celebration - [Company Name] 🎆</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Night Sky Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Main Container */
+        .splash-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        /* Messenger Trigger Badge */
+        .messenger-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(45deg, #006AFF, #00B2FF);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0, 106, 255, 0.4);
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .messenger-badge:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Header */
+        .header {
+            margin: 50px 0 30px;
+        }
+
+        .company-logo {
+            max-width: 200px;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .year-display {
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #FFD700, #FF8C00, #FF4500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .greeting {
+            font-size: 2.5rem;
+            margin: 30px 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Stats Counter */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            min-width: 200px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Messenger Info */
+        .messenger-info {
+            background: rgba(0, 106, 255, 0.2);
+            border: 2px solid rgba(0, 106, 255, 0.4);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px auto;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+
+        .messenger-info h3 {
+            margin-bottom: 20px;
+            color: #00B2FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .share-code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 1.2rem;
+            border: 1px dashed #00B2FF;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .cta-button.primary {
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            color: #000;
+        }
+
+        .cta-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Fireworks Canvas */
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Counter */
+        .counter {
+            font-size: 1.3rem;
+            margin: 30px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FF4500;
+            text-shadow: 0 0 20px #FF4500;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .year-display { font-size: 5rem; }
+            .greeting { font-size: 1.8rem; }
+            .stat-box { min-width: 150px; }
+            .stat-number { font-size: 2rem; }
+            .messenger-badge { top: 10px; right: 10px; padding: 8px 15px; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .cta-button { width: 100%; max-width: 300px; justify-content: center; }
+        }
+
+        /* Animation for new visitors */
+        @keyframes welcome {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .welcome-animation {
+            animation: welcome 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Messenger Badge -->
+    <div class="messenger-badge" onclick="shareToMessenger()">
+        <i class="fab fa-facebook-messenger"></i>
+        Share Celebration
+    </div>
+
+    <!-- Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Fireworks Canvas -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Main Content -->
+    <div class="splash-container">
+        <div class="header welcome-animation">
+           
+            
+            <h1 class="greeting">🎉 HAPPY NEW YEAR! 🎉</h1>
+            
+            <div class="year-display" id="yearDisplay">2025</div>
+            
+            <p style="font-size: 1.5rem; margin: 20px 0;">
+                Special celebration for our valued customers and partners!
+            </p>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-number" id="totalCelebrations">0</div>
+                <div class="stat-label">Total Celebrations</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="messengerClicks">0</div>
+                <div class="stat-label">Messenger Shares</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="visitorsToday">0</div>
+                <div class="stat-label">Visitors Today</div>
+            </div>
+        </div>
+
+        <!-- Messenger Sharing Info -->
+        <div class="messenger-info">
+            <h3><i class="fab fa-facebook-messenger"></i> Share via Messenger</h3>
+            <p>Click the button above or share this link via Messenger:</p>
+            
+            <div class="share-code" id="shareableLink">
+                Loading...
+            </div>
+            
+            <p style="margin-top: 15px;">
+                When friends click your Messenger link, they'll see this special New Year celebration!
+            </p>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="counter">
+            <p>This celebration will automatically redirect in:</p>
+            <div class="timer" id="countdownTimer">00:15</div>
+            <p style="margin-top: 10px; font-size: 1rem;">
+                Or continue immediately below
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="cta-buttons">
+            <button class="cta-button primary" onclick="redirectToMainSite()">
+                <i class="fas fa-external-link-alt"></i>
+                Continue to Our Website
+            </button>
+            
+            <button class="cta-button secondary" onclick="launchFireworks()">
+                <i class="fas fa-fire"></i>
+                Launch More Fireworks
+            </button>
+            
+            <button class="cta-button secondary" onclick="copyShareLink()">
+                <i class="fas fa-share-alt"></i>
+                Copy Share Link
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="margin-top: 10px;">
+                This special New Year celebration will appear every 2 hours for visitors
+                who click Messenger links from our campaigns.
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Configuration
+        const CONFIG = {
+            company: {
+                name: "Your Company Name",
+                website: "#",
+                messengerPage: "https://m.me/yourcompanypage"
+            },
+            splashDuration: 50, // seconds
+            rotationInterval: 7200, // 2 hours in seconds
+            storageKey: "newYearCelebration2025"
+        };
+
+        // Tracking Data
+        let trackingData = {
+            totalVisits: 0,
+            messengerClicks: 0,
+            todayVisits: 0,
+            lastVisit: null,
+            visitorId: null
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initPage();
+            initFireworks();
+            startTimers();
+            generateShareableLink();
+            loadTrackingData();
+            checkMessengerReferral();
+        });
+
+        // Page Initialization
+        function initPage() {
+            // Set current year
+            const currentYear = new Date().getFullYear();
+            const nextYear = currentYear + 1;
+            document.getElementById('yearDisplay').textContent = nextYear;
+
+            // Create stars
+            createStars();
+
+            // Generate visitor ID
+            trackingData.visitorId = generateVisitorId();
+        }
+
+        // Tracking System
+        function loadTrackingData() {
+            const savedData = localStorage.getItem(CONFIG.storageKey);
+            if (savedData) {
+                trackingData = JSON.parse(savedData);
+                
+                // Check if last visit was today
+                const today = new Date().toDateString();
+                if (trackingData.lastVisit !== today) {
+                    trackingData.todayVisits = 0;
+                    trackingData.lastVisit = today;
+                }
+            }
+            
+            // Increment visit counts
+            trackingData.totalVisits++;
+            trackingData.todayVisits++;
+            
+            // Update display
+            updateStats();
+            
+            // Save to localStorage
+            saveTrackingData();
+        }
+
+        function saveTrackingData() {
+            trackingData.lastVisit = new Date().toDateString();
+            localStorage.setItem(CONFIG.storageKey, JSON.stringify(trackingData));
+        }
+
+        function updateStats() {
+            document.getElementById('totalCelebrations').textContent = 
+                trackingData.totalVisits.toLocaleString();
+            document.getElementById('messengerClicks').textContent = 
+                trackingData.messengerClicks.toLocaleString();
+            document.getElementById('visitorsToday').textContent = 
+                trackingData.todayVisits.toLocaleString();
+        }
+
+        function generateVisitorId() {
+            return 'visitor_' + Math.random().toString(36).substr(2, 9) + 
+                   '_' + Date.now().toString(36);
+        }
+
+        // Check if coming from Messenger
+        function checkMessengerReferral() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.has('messenger')) {
+                // Track this as a Messenger click
+                trackingData.messengerClicks++;
+                saveTrackingData();
+                updateStats();
+                
+                // Show special welcome for Messenger users
+                showMessengerWelcome();
+                
+                // Add to URL history
+                history.replaceState({}, '', window.location.pathname);
+            }
+            
+            if (urlParams.has('ref')) {
+                const refCode = urlParams.get('ref');
+                trackReferral(refCode);
+            }
+        }
+
+        function trackReferral(refCode) {
+            // Store referral in localStorage
+            localStorage.setItem('ny_referral', refCode);
+            
+            // You can send this to your analytics here
+            console.log(`Referred by: ${refCode}`);
+        }
+
+        // Shareable Link Generation
+        function generateShareableLink() {
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?messenger=true&ref=${trackingData.visitorId}`;
+            
+            document.getElementById('shareableLink').textContent = shareUrl;
+            
+            return shareUrl;
+        }
+
+        // Share to Messenger Function
+        function shareToMessenger() {
+            const shareUrl = generateShareableLink();
+            const message = `Check out this awesome New Year celebration from ${CONFIG.company.name}! 🎆🎉`;
+            
+            // Facebook Messenger sharing URL
+            const messengerUrl = `https://www.facebook.com/dialog/send?` +
+                                `link=${encodeURIComponent(shareUrl)}&` +
+                                `app_id=YOUR_FACEBOOK_APP_ID&` +
+                                `redirect_uri=${encodeURIComponent(CONFIG.company.website)}&` +
+                                `quote=${encodeURIComponent(message)}`;
+            
+            // Open in new window
+            window.open(messengerUrl, '_blank', 'width=600,height=400');
+            
+            // Track the share attempt
+            trackingData.messengerClicks++;
+            saveTrackingData();
+            updateStats();
+        }
+
+        function copyShareLink() {
+            const shareUrl = generateShareableLink();
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert('Link copied to clipboard! Share via Messenger or any platform.');
+            });
+        }
+
+        // Show special welcome for Messenger users
+        function showMessengerWelcome() {
+            const greeting = document.querySelector('.greeting');
+            if (greeting) {
+                greeting.innerHTML = '🎉 WELCOME FROM MESSENGER! 🎉<br>' +
+                                   '<small style="font-size: 1.2rem;">Thanks for clicking our Messenger link!</small>';
+                
+                // Add special animation
+                greeting.style.animation = 'pulse 1s infinite';
+                
+                // Launch extra fireworks
+                setTimeout(() => {
+                    launchFireworks();
+                    launchFireworks();
+                }, 1000);
+            }
+        }
+
+        // Timer Functions
+        function startTimers() {
+            let secondsLeft = CONFIG.splashDuration;
+            const timerElement = document.getElementById('countdownTimer');
+            
+            const timer = setInterval(() => {
+                secondsLeft--;
+                const minutes = Math.floor(secondsLeft / 60);
+                const seconds = secondsLeft % 60;
+                
+                timerElement.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (secondsLeft <= 0) {
+                    clearInterval(timer);
+                    redirectToMainSite();
+                }
+            }, 1000);
+        }
+
+        // Redirect Function
+        function redirectToMainSite() {
+            // Save visit timestamp for 2-hour rotation
+            localStorage.setItem('lastSplashVisit', Date.now().toString());
+            
+            // Animate exit
+            document.body.style.opacity = '0.7';
+            document.body.style.transition = 'opacity 0.5s';
+            
+            // Redirect after animation
+            setTimeout(() => {
+                window.location.href = CONFIG.company.website;
+            }, 500);
+        }
+
+        // Check if should show splash (for auto-rotation)
+        function shouldShowSplash() {
+            const lastVisit = localStorage.getItem('lastSplashVisit');
+            if (!lastVisit) return true;
+            
+            const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
+            return parseInt(lastVisit) < twoHoursAgo;
+        }
+
+        // Stars Background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random animation delay
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Enhanced Fireworks System
+        function initFireworks() {
+            const canvas = document.getElementById('fireworksCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const particles = [];
+            
+            class Particle {
+                constructor(x, y, color, velocity) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    this.velocity = velocity;
+                    this.size = Math.random() * 3 + 1;
+                    this.alpha = 1;
+                    this.gravity = 0.01;
+                    this.decay = 0.015;
+                }
+                
+                update() {
+                    this.velocity.x *= 0.99;
+                    this.velocity.y *= 0.99;
+                    this.velocity.y += this.gravity;
+                    this.x += this.velocity.x;
+                    this.y += this.velocity.y;
+                    this.alpha -= this.decay;
+                }
+                
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.alpha;
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Glow effect
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 15;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+            
+            // Animation loop
+            function animate() {
+                ctx.fillStyle = 'rgba(12, 36, 97, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach((particle, index) => {
+                    if (particle.alpha <= 0) {
+                        particles.splice(index, 1);
+                    } else {
+                        particle.update();
+                        particle.draw();
+                    }
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            // Launch fireworks function
+            window.launchFireworks = function(count = 50) {
+                const colors = ['#FFD700', '#FF4500', '#00FFFF', '#FF1493', '#7FFF00'];
+                
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * canvas.width;
+                        const y = Math.random() * canvas.height * 0.3;
+                        
+                        for (let j = 0; j < 50; j++) {
+                            const velocity = {
+                                x: (Math.random() - 0.5) * 5,
+                                y: (Math.random() - 0.5) * 5
+                            };
+                            
+                            particles.push(new Particle(
+                                x, y,
+                                colors[Math.floor(Math.random() * colors.length)],
+                                velocity
+                            ));
+                        }
+                    }, i * 100);
+                }
+            };
+            
+            // Start with some fireworks
+            launchFireworks(5);
+            animate();
+            
+            // Auto-launch occasional fireworks
+            setInterval(() => {
+                if (particles.length < 500) {
+                    launchFireworks(1);
+                }
+            }, 3000);
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // Analytics Tracking (Optional)
+        function sendAnalytics(event) {
+            const analyticsData = {
+                event: event,
+                visitorId: trackingData.visitorId,
+                timestamp: new Date().toISOString(),
+                page: window.location.href,
+                referrer: document.referrer
+            };
+            
+            // Send to your analytics endpoint
+            console.log('Analytics:', analyticsData);
+            
+            // Example: Send to Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', event, {
+                    'event_category': 'NewYearCelebration',
+                    'event_label': analyticsData.visitorId
+                });
+            }
+        }
+
+        // Track button clicks
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                sendAnalytics(`button_click_${button.textContent.trim().toLowerCase()}`);
+            });
+        });
+    </script>
+</body>
+</html>

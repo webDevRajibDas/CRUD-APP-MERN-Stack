@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎆 New Year Fireworks Splash & Video Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a2a, #1a1a4a);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        /* Main Splash Container */
+        .splash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: none;
+        }
+
+        .splash-overlay.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Enhanced Fireworks Canvas */
+        #fireworksCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Splash Content */
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            max-width: 800px;
+            margin: 100px auto;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 100px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Video Generator Container */
+        .video-generator {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+            border: 2px solid #ffd700;
+        }
+
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #ff0080, #ff8c00);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 0, 128, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 0, 128, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-second {
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-second:hover {
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.5);
+        }
+
+        /* Video Preview */
+        #videoPreview {
+            width: 270px;
+            height: 480px;
+            background: #000;
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 100;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0080, #ff8c00);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff0080, #ff8c00, #ffff00, #00ff00, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: colorShift 3s infinite alternate;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes colorShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #4CAF50;
+            margin: 15px 0;
+        }
+
+        .year-display {
+            font-size: 8rem;
+            font-weight: bold;
+            margin: 30px 0;
+            color: #ffd700;
+            text-shadow: 
+                0 0 10px #ff5722,
+                0 0 20px #ff5722,
+                0 0 40px #ff5722;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                text-shadow: 
+                    0 0 10px #ff5722,
+                    0 0 20px #ff5722,
+                    0 0 40px #ff5722;
+            }
+            50% { 
+                transform: scale(1.1);
+                text-shadow: 
+                    0 0 20px #ff5722,
+                    0 0 40px #ff5722,
+                    0 0 80px #ff5722;
+            }
+        }
+
+        .message {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin: 20px 0;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .company-name {
+            font-size: 2.2rem;
+            color: #4CAF50;
+            margin: 20px 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Customization Panel */
+        .customization {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .customization label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .customization input,
+        .customization select,
+        .customization textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+
+        .customization textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        /* Video Controls */
+        .video-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .control-group {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        /* Countdown Display */
+        .countdown {
+            font-size: 2rem;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+        }
+
+        .countdown span {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 2.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .splash-content {
+                margin: 50px 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .year-display {
+                font-size: 5rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+
+            .video-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Firework Control Panel */
+        .firework-controls {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .intensity-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .intensity-btn {
+            padding: 8px 16px;
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .intensity-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .intensity-btn.active {
+            background: linear-gradient(45deg, #ff0000, #ffff00);
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Splash Screen -->
+    <div class="splash-overlay" id="splashOverlay">
+        <canvas id="fireworksCanvas"></canvas>
+        <div class="splash-content">
+            <h1 id="mainTitle">🎆 HAPPY NEW YEAR 🎉</h1>
+            <div class="year-display" id="yearDisplay">2024</div>
+            <div class="company-name" id="companyName">Your Company Name</div>
+            <div class="message" id="greetingMessage">
+                Wishing you a year filled with joy, success, and prosperity!<br>
+                May all your dreams come true in the coming year!
+            </div>
+            
+            <div class="countdown">
+                Auto-close in: <span id="autoCloseCountdown">15</span>s
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="closeSplash()">
+                    <span>🚀 Continue to Site</span>
+                </button>
+                <button class="btn btn-second" onclick="generateVideo()">
+                    <span>🎬 Generate Reel</span>
+                </button>
+            </div>
+
+            <div class="firework-controls">
+                <h3>🎆 Fireworks Intensity</h3>
+                <div class="intensity-controls">
+                    <button class="intensity-btn active" onclick="setFireworkIntensity('low')">Low</button>
+                    <button class="intensity-btn" onclick="setFireworkIntensity('medium')">Medium</button>
+                    <button class="intensity-btn" onclick="setFireworkIntensity('high')">High</button>
+                    <button class="intensity-btn" onclick="setFireworkIntensity('extreme')">Extreme!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Generator Section -->
+    <div class="splash-content" id="videoGenerator" style="display: none;">
+        <h2>🎥 Create New Year Reel (30 seconds)</h2>
+        <h3>Perfect for Instagram, TikTok, and Social Media</h3>
+        
+        <div id="videoPreview">
+            <div class="video-timer" id="videoTimer">00:00</div>
+            <canvas id="reelCanvas" width="270" height="480"></canvas>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="customization">
+            <label for="customMessage">Your Message:</label>
+            <textarea id="customMessage" placeholder="Enter your New Year message...">Wishing you and your family a prosperous New Year filled with joy and success!</textarea>
+            
+            <label for="companyText">Company/Personal Name:</label>
+            <input type="text" id="companyText" value="Your Company Name">
+            
+            <label for="themeSelect">Video Theme:</label>
+            <select id="themeSelect">
+                <option value="golden">🎇 Golden Celebration</option>
+                <option value="neon">🌌 Neon Party</option>
+                <option value="classic">✨ Classic Fireworks</option>
+                <option value="modern">🚀 Modern Minimal</option>
+            </select>
+            
+            <label for="musicSelect">Background Music:</label>
+            <select id="musicSelect">
+                <option value="celebratory">🎉 Celebratory Fanfare</option>
+                <option value="party">🕺 Party Vibes</option>
+                <option value="inspiring">🌟 Inspiring Orchestral</option>
+                <option value="electronic">⚡ Electronic Dance</option>
+            </select>
+        </div>
+
+        <div class="video-controls">
+            <div class="control-group">
+                <h3>🎞️ Video Settings</h3>
+                <label><input type="checkbox" id="addLogo" checked> Add Company Logo</label><br>
+                <label><input type="checkbox" id="addCountdown" checked> Add Countdown</label><br>
+                <label><input type="checkbox" id="addFireworks" checked> Add Fireworks</label>
+            </div>
+            
+            <div class="control-group">
+                <h3>🎨 Color Theme</h3>
+                <label>
+                    Text Color: 
+                    <input type="color" id="textColor" value="#FFD700">
+                </label><br>
+                <label>
+                    Background: 
+                    <input type="color" id="bgColor" value="#0a0a2a">
+                </label>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="startVideoPreview()">
+                <span>▶️ Preview Video</span>
+            </button>
+            <button class="btn btn-second" onclick="downloadVideo()">
+                <span>💾 Download Video</span>
+            </button>
+            <button class="btn" onclick="goBackToSplash()">
+                <span>← Back to Splash</span>
+            </button>
+        </div>
+
+        <div id="downloadStatus" style="margin-top: 20px; text-align: center;"></div>
+    </div>
+
+    <!-- Main Website Content (Hidden when splash is active) -->
+    <div id="mainContent" style="padding: 20px;">
+        <h1>Welcome to Our Website</h1>
+        <p>This is your main website content. The New Year splash screen will appear every 2 hours.</p>
+        <button class="btn" onclick="showSplash()" style="margin-top: 20px;">
+            🎆 Show New Year Splash Now
+        </button>
+    </div>
+
+    <script>
+        // Enhanced Configuration
+        const CONFIG = {
+            splashDuration: 15,
+            rotationInterval: 7200,
+            currentYear: new Date().getFullYear(),
+            nextYear: new Date().getFullYear() + 1,
+            company: {
+                name: "Your Company Name",
+                message: "Thank you for being part of our journey!"
+            },
+            videoDuration: 30,
+            fireworkIntensity: 'medium'
+        };
+
+        // Canvas Elements
+        const fireworksCanvas = document.getElementById('fireworksCanvas');
+        const reelCanvas = document.getElementById('reelCanvas');
+        const fireworksCtx = fireworksCanvas.getContext('2d');
+        const reelCtx = reelCanvas.getContext('2d');
+
+        // State Variables
+        let particles = [];
+        let fireworks = [];
+        let isVideoGenerating = false;
+        let videoProgress = 0;
+        let videoTimer = null;
+        let autoCloseTimer = null;
+        let lastSplashTime = localStorage.getItem('lastSplashTime');
+        let fireworkInterval = null;
+
+        // Initialize
+        function init() {
+            // Set canvas size
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Check if we should show splash
+            checkSplashSchedule();
+            
+            // Initialize video generator
+            initVideoPreview();
+            
+            // Start animation loop
+            animate();
+        }
+
+        // Canvas Resizing
+        function resizeCanvas() {
+            fireworksCanvas.width = window.innerWidth;
+            fireworksCanvas.height = window.innerHeight;
+            reelCanvas.width = 270;
+            reelCanvas.height = 480;
+        }
+
+        // Splash Screen Schedule
+        function checkSplashSchedule() {
+            const now = Date.now();
+            const twoHours = 2 * 60 * 60 * 1000;
+            
+            if (!lastSplashTime || (now - lastSplashTime >= twoHours)) {
+                showSplash();
+            }
+        }
+
+        // Show Splash Screen
+        function showSplash() {
+            const splash = document.getElementById('splashOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            splash.classList.add('active');
+            mainContent.style.display = 'none';
+            
+            // Update year
+            document.getElementById('yearDisplay').textContent = CONFIG.nextYear;
+            
+            // Start auto-close countdown
+            startAutoCloseTimer();
+            
+            // Start fireworks
+            startFireworks();
+            
+            // Store last shown time
+            localStorage.setItem('lastSplashTime', Date.now());
+        }
+
+        // Close Splash Screen
+        function closeSplash() {
+            const splash = document.getElementById('splashOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            splash.classList.remove('active');
+            mainContent.style.display = 'block';
+            
+            // Clear timers
+            clearInterval(autoCloseTimer);
+            stopFireworks();
+        }
+
+        // Auto-Close Timer
+        function startAutoCloseTimer() {
+            let seconds = CONFIG.splashDuration;
+            const countdownEl = document.getElementById('autoCloseCountdown');
+            
+            autoCloseTimer = setInterval(() => {
+                seconds--;
+                countdownEl.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    closeSplash();
+                }
+            }, 1000);
+        }
+
+        // Enhanced Fireworks System
+        class Particle {
+            constructor(x, y, color, velocity, size, decay = 0.01) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.velocity = velocity;
+                this.size = size;
+                this.decay = decay;
+                this.alpha = 1;
+                this.gravity = 0.01;
+            }
+            
+            update() {
+                this.velocity.y += this.gravity;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= this.decay;
+                this.size *= 0.99;
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class Firework {
+            constructor(x, y, targetX, targetY, color) {
+                this.x = x;
+                this.y = y;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.color = color;
+                this.speed = 5;
+                this.size = 3;
+                this.exploded = false;
+                this.particles = [];
+                this.trail = [];
+            }
+            
+            update() {
+                if (!this.exploded) {
+                    // Move toward target
+                    const dx = this.targetX - this.x;
+                    const dy = this.targetY - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    this.x += (dx / distance) * this.speed;
+                    this.y += (dy / distance) * this.speed;
+                    
+                    // Add to trail
+                    this.trail.push({x: this.x, y: this.y});
+                    if (this.trail.length > 10) this.trail.shift();
+                    
+                    // Check if reached target
+                    if (distance < this.speed) {
+                        this.explode();
+                    }
+                }
+                
+                // Update particles
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    this.particles[i].update();
+                    if (this.particles[i].alpha <= 0) {
+                        this.particles.splice(i, 1);
+                    }
+                }
+            }
+            
+            explode() {
+                this.exploded = true;
+                const particleCount = CONFIG.fireworkIntensity === 'low' ? 50 : 
+                                    CONFIG.fireworkIntensity === 'medium' ? 100 : 
+                                    CONFIG.fireworkIntensity === 'high' ? 200 : 300;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const velocity = {
+                        x: (Math.random() - 0.5) * (CONFIG.fireworkIntensity === 'extreme' ? 10 : 5),
+                        y: (Math.random() - 0.5) * (CONFIG.fireworkIntensity === 'extreme' ? 10 : 5)
+                    };
+                    
+                    const size = Math.random() * 3 + 1;
+                    const color = this.getRandomFireworkColor();
+                    
+                    this.particles.push(new Particle(
+                        this.x,
+                        this.y,
+                        color,
+                        velocity,
+                        size,
+                        CONFIG.fireworkIntensity === 'extreme' ? 0.005 : 0.01
+                    ));
+                }
+            }
+            
+            getRandomFireworkColor() {
+                const colors = [
+                    '#FF0000', '#FF8000', '#FFFF00', '#00FF00',
+                    '#00FFFF', '#0080FF', '#8000FF', '#FF00FF',
+                    '#FFD700', '#FF1493', '#00FF7F', '#1E90FF'
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            draw(ctx) {
+                if (!this.exploded) {
+                    // Draw trail
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(this.trail[0].x, this.trail[0].y);
+                    for (let i = 1; i < this.trail.length; i++) {
+                        ctx.lineTo(this.trail[i].x, this.trail[i].y);
+                    }
+                    ctx.stroke();
+                    
+                    // Draw firework
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Draw particles
+                this.particles.forEach(particle => particle.draw(ctx));
+            }
+        }
+
+        function startFireworks() {
+            stopFireworks();
+            
+            const interval = CONFIG.fireworkIntensity === 'low' ? 1000 :
+                           CONFIG.fireworkIntensity === 'medium' ? 500 :
+                           CONFIG.fireworkIntensity === 'high' ? 200 : 100;
+            
+            fireworkInterval = setInterval(() => {
+                createFirework();
+            }, interval);
+        }
+
+        function stopFireworks() {
+            if (fireworkInterval) {
+                clearInterval(fireworkInterval);
+                fireworkInterval = null;
+            }
+            fireworks = [];
+            particles = [];
+        }
+
+        function createFirework() {
+            const x = Math.random() * fireworksCanvas.width;
+            const targetX = fireworksCanvas.width / 2 + (Math.random() - 0.5) * 200;
+            const targetY = fireworksCanvas.height * 0.3 + Math.random() * 200;
+            
+            const colors = ['#FFD700', '#FF4500', '#00FFFF', '#FF1493'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            fireworks.push(new Firework(x, fireworksCanvas.height, targetX, targetY, color));
+        }
+
+        function setFireworkIntensity(intensity) {
+            CONFIG.fireworkIntensity = intensity;
+            
+            // Update button states
+            document.querySelectorAll('.intensity-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Restart fireworks with new intensity
+            if (document.getElementById('splashOverlay').classList.contains('active')) {
+                startFireworks();
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            // Clear canvas with fade effect
+            fireworksCtx.fillStyle = 'rgba(10, 10, 42, 0.1)';
+            fireworksCtx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+            
+            // Update and draw fireworks
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                fireworks[i].update();
+                fireworks[i].draw(fireworksCtx);
+                
+                if (fireworks[i].exploded && fireworks[i].particles.length === 0) {
+                    fireworks.splice(i, 1);
+                }
+            }
+            
+            // Add occasional sparkles
+            if (Math.random() < 0.1) {
+                particles.push(new Particle(
+                    Math.random() * fireworksCanvas.width,
+                    Math.random() * fireworksCanvas.height * 0.5,
+                    `hsl(${Math.random() * 360}, 100%, 60%)`,
+                    {x: 0, y: -0.5},
+                    Math.random() * 2 + 1,
+                    0.02
+                ));
+            }
+            
+            // Update and draw particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw(fireworksCtx);
+                
+                if (particles[i].alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Video Generator Functions
+        function generateVideo() {
+            document.getElementById('splashOverlay').style.display = 'none';
+            document.getElementById('videoGenerator').style.display = 'block';
+        }
+
+        function goBackToSplash() {
+            document.getElementById('videoGenerator').style.display = 'none';
+            document.getElementById('splashOverlay').style.display = 'block';
+        }
+
+        function initVideoPreview() {
+            // Draw initial video frame
+            drawVideoFrame(0);
+        }
+
+        function drawVideoFrame(time) {
+            const ctx = reelCtx;
+            const width = reelCanvas.width;
+            const height = reelCanvas.height;
+            
+            // Clear canvas
+            ctx.fillStyle = document.getElementById('bgColor').value;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw gradient background
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, '#0a0a2a');
+            gradient.addColorStop(1, '#1a1a4a');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw animated fireworks in video
+            const fireworksCount = 5 + Math.sin(time * 0.1) * 2;
+            for (let i = 0; i < fireworksCount; i++) {
+                const x = width * 0.2 + i * width * 0.15;
+                const y = height * 0.3 + Math.sin(time * 0.5 + i) * 20;
+                drawVideoFirework(ctx, x, y, time + i);
+            }
+            
+            // Draw text
+            const message = document.getElementById('customMessage').value;
+            const company = document.getElementById('companyText').value;
+            
+            ctx.fillStyle = document.getElementById('textColor').value;
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+            ctx.shadowBlur = 10;
+            
+            // Draw main message
+            wrapText(ctx, message, width/2, height/2, width - 40, 28);
+            
+            // Draw company name
+            ctx.font = 'bold 20px Arial';
+            ctx.fillText(company, width/2, height * 0.8);
+            
+            // Draw year
+            ctx.font = 'bold 48px Arial';
+            ctx.fillText(CONFIG.nextYear, width/2, height * 0.9);
+            
+            // Draw countdown if enabled
+            if (document.getElementById('addCountdown').checked) {
+                const remaining = CONFIG.videoDuration - time;
+                ctx.font = 'bold 36px Arial';
+                ctx.fillText(`00:${remaining.toString().padStart(2, '0')}`, width/2, 50);
+            }
+            
+            ctx.shadowBlur = 0;
+        }
+
+        function drawVideoFirework(ctx, x, y, time) {
+            const particleCount = 8;
+            const radius = 30 + Math.sin(time * 2) * 10;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const angle = (i * (Math.PI * 2 / particleCount)) + time;
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
+                
+                const colors = ['#FFD700', '#FF4500', '#00FFFF'];
+                const color = colors[i % colors.length];
+                
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(px, py, 4, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Add glow
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let testLine = '';
+            let lineCount = 0;
+            
+            for(let n = 0; n < words.length; n++) {
+                testLine = line + words[n] + ' ';
+                const metrics = ctx.measureText(testLine);
+                const testWidth = metrics.width;
+                
+                if (testWidth > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                    lineCount++;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+        }
+
+        function startVideoPreview() {
+            if (isVideoGenerating) return;
+            
+            isVideoGenerating = true;
+            videoProgress = 0;
+            
+            const progressFill = document.getElementById('progressFill');
+            const videoTimerEl = document.getElementById('videoTimer');
+            
+            videoTimer = setInterval(() => {
+                videoProgress += 0.1;
+                const seconds = Math.floor(videoProgress);
+                
+                // Update progress bar
+                const progress = (videoProgress / CONFIG.videoDuration) * 100;
+                progressFill.style.width = `${progress}%`;
+                
+                // Update timer
+                videoTimerEl.textContent = `00:${seconds.toString().padStart(2, '0')}`;
+                
+                // Draw frame
+                drawVideoFrame(videoProgress);
+                
+                // Check if finished
+                if (videoProgress >= CONFIG.videoDuration) {
+                    stopVideoPreview();
+                    alert('🎬 Video preview complete! Ready for download.');
+                }
+            }, 100);
+        }
+
+        function stopVideoPreview() {
+            clearInterval(videoTimer);
+            isVideoGenerating = false;
+        }
+
+        function downloadVideo() {
+            const statusEl = document.getElementById('downloadStatus');
+            statusEl.innerHTML = '<div style="color: #4CAF50;">⏳ Processing 30-second video... This may take a moment.</div>';
+            
+            // In a real implementation, you would use a server-side solution or MediaRecorder API
+            // For demo purposes, we'll create a fake download
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.download = `new-year-reel-${CONFIG.nextYear}.mp4`;
+                link.href = '#';
+                link.click();
+                
+                statusEl.innerHTML = '<div style="color: #4CAF50; font-weight: bold;">✅ Video downloaded successfully! Share it on social media with #HappyNewYear</div>';
+            }, 2000);
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

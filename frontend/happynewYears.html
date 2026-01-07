@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year Fireworks Extravaganza! 🎆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at center, rgba(0, 25, 65, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="10" cy="10" r="0.5" fill="white" opacity="0.8"/><circle cx="30" cy="40" r="0.3" fill="white" opacity="0.6"/><circle cx="70" cy="20" r="0.4" fill="white" opacity="0.7"/><circle cx="90" cy="60" r="0.2" fill="white" opacity="0.5"/><circle cx="50" cy="80" r="0.6" fill="white" opacity="0.9"/></svg>');
+            z-index: 1;
+        }
+
+        .splash-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 1120px;
+            width: 95%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 
+                0 0 100px rgba(255, 215, 0, 0.3),
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                inset 0 0 50px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            animation: containerGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes containerGlow {
+            0% {
+                box-shadow: 
+                    0 0 80px rgba(255, 215, 0, 0.3),
+                    0 20px 50px rgba(0, 0, 0, 0.5),
+                    inset 0 0 30px rgba(255, 255, 255, 0.1);
+                border-color: rgba(255, 215, 0, 0.3);
+            }
+            100% {
+                box-shadow: 
+                    0 0 120px rgba(255, 100, 100, 0.4),
+                    0 20px 50px rgba(0, 0, 0, 0.5),
+                    inset 0 0 70px rgba(255, 255, 255, 0.15);
+                border-color: rgba(255, 100, 100, 0.4);
+            }
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #FFD700, #FF4500, #FF1493, #00FFFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+            animation: titlePulse 2s ease-in-out infinite;
+            font-family: 'Arial Black', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { 
+                transform: scale(1);
+                text-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+            }
+            50% { 
+                transform: scale(1.05);
+                text-shadow: 0 0 70px rgba(255, 69, 0, 0.8);
+            }
+        }
+
+        .year-display {
+            font-size: 10rem;
+            font-weight: bold;
+            margin: 40px 0;
+            color: #FFD700;
+            text-shadow: 
+                0 0 100px #FF4500,
+                0 0 50px #FFD700,
+                0 0 25px #FFFFFF;
+            animation: yearGlow 1.5s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        @keyframes yearGlow {
+            0% { 
+                transform: scale(1);
+                text-shadow: 
+                    0 0 80px #FF4500,
+                    0 0 40px #FFD700,
+                    0 0 20px #FFFFFF;
+            }
+            100% { 
+                transform: scale(1.1);
+                text-shadow: 
+                    0 0 120px #FF1493,
+                    0 0 60px #FFD700,
+                    0 0 30px #FFFFFF;
+            }
+        }
+
+        .greeting {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #FFFFFF;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            font-weight: 300;
+            padding: 0 20px;
+        }
+
+        .company-info {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 69, 0, 0.1));
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .company-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: shine 3s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .company-name {
+            font-size: 2.8rem;
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+            position: relative;
+            z-index: 2;
+        }
+
+        .company-message {
+            font-size: 1.5rem;
+            color: #FFA500;
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #FF4500, #FFD700);
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .control-btn:hover::before {
+            left: 100%;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 69, 0, 0.6);
+        }
+
+        .timer-display {
+            font-size: 1.4rem;
+            color: #FFFFFF;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #FFD700;
+            margin: 30px auto;
+            max-width: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FF4500;
+            text-shadow: 0 0 20px #FF4500;
+        }
+
+        .firework-type {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .firework-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #FFD700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .firework-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .firework-btn.active {
+            background: linear-gradient(45deg, #FF4500, #FFD700);
+            color: black;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Fireworks Canvas */
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .volume-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .volume-slider {
+            width: 100px;
+            transform: rotate(-90deg);
+            transform-origin: right;
+        }
+
+        /* Decorative Elements */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .celebration-text {
+            position: fixed;
+            font-size: 6rem;
+            font-weight: bold;
+            color: rgba(255, 215, 0, 0.1);
+            transform: rotate(-30deg);
+            pointer-events: none;
+            z-index: 2;
+            animation: floatText 20s linear infinite;
+        }
+
+        @keyframes floatText {
+            0% { transform: rotate(-30deg) translateX(-100%); }
+            100% { transform: rotate(-30deg) translateX(200%); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .year-display { font-size: 6rem; }
+            .greeting { font-size: 1.5rem; }
+            .company-name { font-size: 2rem; }
+            .splash-container { padding: 20px; }
+            .controls { flex-direction: column; align-items: center; }
+            .control-btn { width: 80%; }
+        }
+
+        /* Explosion Effects */
+        .explosion {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .trail {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(to bottom, transparent, #FFD700);
+            pointer-events: none;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="night-sky"></div>
+    <canvas id="fireworksCanvas"></canvas>
+    
+    <div class="splash-container">
+        <h1>🎆 HAPPY NEW YEAR 🎆</h1>
+        
+        <div class="year-display" id="yearDisplay">2024</div>
+        
+        <div class="greeting" id="greetingText">
+            May this New Year bring you endless joy, prosperity, and spectacular success!
+        </div>
+        
+        <div class="company-info">
+            <div class="company-name" id="companyName">YOUR COMPANY NAME</div>
+            <div class="company-message" id="companyMessage">
+                Celebrating new beginnings and shared successes! Thank you for being part of our journey.
+            </div>
+        </div>
+        
+        <div class="timer-display">
+            <span>Next Celebration:</span>
+            <div class="timer" id="countdownTimer">02:00:00</div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="launchMegaFirework()">🚀 LAUNCH MEGA FIREWORK</button>
+            <button class="control-btn" onclick="startFireworksShow()">🎇 FIREWORKS SHOW</button>
+            <button class="control-btn" onclick="toggleSound()">🔊 TOGGLE SOUND</button>
+            <button class="control-btn" onclick="closeSplash()">▶ CONTINUE</button>
+        </div>
+        
+        <div class="firework-type">
+            <button class="firework-btn active" onclick="setFireworkType('normal')">Standard</button>
+            <button class="firework-btn" onclick="setFireworkType('ring')">Ring Burst</button>
+            <button class="firework-btn" onclick="setFireworkType('heart')">Heart Shape</button>
+            <button class="firework-btn" onclick="setFireworkType('spiral')">Spiral</button>
+            <button class="firework-btn" onclick="setFireworkType('crossette')">Crossette</button>
+            <button class="firework-btn" onclick="setFireworkType('willow')">Willow</button>
+        </div>
+        
+        <div style="color: rgba(255,255,255,0.7); margin-top: 30px; font-size: 0.9rem;">
+            Auto-closing in <span id="autoCloseTime">15</span> seconds • Press SPACE for random fireworks
+        </div>
+    </div>
+
+    <audio id="fireworkSound" src="https://assets.mixkit.co/sfx/preview/mixkit-fireworks-show-audio-3062.mp3" preload="auto"></audio>
+    <audio id="launchSound" src="https://assets.mixkit.co/sfx/preview/mixkit-rocket-launch-3001.mp3" preload="auto"></audio>
+    <audio id="explosionSound" src="https://assets.mixkit.co/sfx/preview/mixkit-bomb-explosion-2806.mp3" preload="auto"></audio>
+
+    <script>
+        // Enhanced Configuration
+        const CONFIG = {
+            splashDuration: 60,
+            rotationInterval: 7200,
+            currentYear: new Date().getFullYear(),
+            nextYear: new Date().getFullYear() + 1,
+            company: {
+                name: "",
+                message: "Celebrating new beginnings and shared successes! Thank you for being part of our journey."
+            },
+            fireworkColors: [
+                '#FF0000', '#FF4500', '#FFD700', '#00FF00', '#00FFFF',
+                '#4169E1', '#8A2BE2', '#FF69B4', '#FF1493', '#7FFF00'
+            ]
+        };
+
+        // Canvas Setup
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Audio Elements
+        const fireworkSound = document.getElementById('fireworkSound');
+        const launchSound = document.getElementById('launchSound');
+        const explosionSound = document.getElementById('explosionSound');
+        let soundEnabled = true;
+
+        // Fireworks System
+        class Particle {
+            constructor(x, y, color, velocity, size = 2, gravity = 0.1, decay = 0.01) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.velocity = velocity;
+                this.size = size;
+                this.gravity = gravity;
+                this.decay = decay;
+                this.alpha = 1;
+                this.friction = 0.99;
+            }
+
+            update() {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.velocity.y += this.gravity;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= this.decay;
+                this.size *= 0.99;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Add glow effect
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class Firework {
+            constructor(x, y, targetX, targetY, type = 'normal') {
+                this.x = x;
+                this.y = y;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.type = type;
+                this.color = CONFIG.fireworkColors[Math.floor(Math.random() * CONFIG.fireworkColors.length)];
+                this.particles = [];
+                this.velocity = {
+                    x: (targetX - x) * 0.02,
+                    y: (targetY - y) * 0.02
+                };
+                this.size = 3;
+                this.exploded = false;
+                this.trail = [];
+                this.maxTrail = 20;
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.x += this.velocity.x;
+                    this.y += this.velocity.y;
+                    
+                    // Add to trail
+                    this.trail.unshift({ x: this.x, y: this.y, color: this.color });
+                    if (this.trail.length > this.maxTrail) this.trail.pop();
+                    
+                    // Check if reached target
+                    const distance = Math.sqrt(
+                        Math.pow(this.targetY - this.y, 2) + 
+                        Math.pow(this.targetX - this.x, 2)
+                    );
+                    
+                    if (distance < 5) {
+                        this.explode();
+                        if (soundEnabled) {
+                            explosionSound.currentTime = 0;
+                            explosionSound.play();
+                        }
+                    }
+                }
+                
+                // Update particles
+                this.particles = this.particles.filter(particle => particle.alpha > 0);
+                this.particles.forEach(particle => particle.update());
+            }
+
+            explode() {
+                this.exploded = true;
+                const particleCount = this.type === 'mega' ? 500 : 100;
+                
+                switch(this.type) {
+                    case 'ring':
+                        this.createRingExplosion(particleCount);
+                        break;
+                    case 'heart':
+                        this.createHeartExplosion(particleCount);
+                        break;
+                    case 'spiral':
+                        this.createSpiralExplosion(particleCount);
+                        break;
+                    case 'crossette':
+                        this.createCrossetteExplosion(particleCount);
+                        break;
+                    case 'willow':
+                        this.createWillowExplosion(particleCount);
+                        break;
+                    default:
+                        this.createNormalExplosion(particleCount);
+                }
+            }
+
+            createNormalExplosion(count) {
+                for (let i = 0; i < count; i++) {
+                    const velocity = {
+                        x: (Math.random() - 0.5) * 8,
+                        y: (Math.random() - 0.5) * 8
+                    };
+                    this.particles.push(new Particle(
+                        this.x, this.y,
+                        this.color,
+                        velocity,
+                        Math.random() * 3 + 1,
+                        0.1,
+                        0.01
+                    ));
+                }
+            }
+
+            createRingExplosion(count) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (i / count) * Math.PI * 2;
+                    const speed = 5;
+                    const velocity = {
+                        x: Math.cos(angle) * speed,
+                        y: Math.sin(angle) * speed
+                    };
+                    this.particles.push(new Particle(
+                        this.x, this.y,
+                        this.color,
+                        velocity,
+                        2,
+                        0.05,
+                        0.005
+                    ));
+                }
+            }
+
+            createHeartExplosion(count) {
+                for (let i = 0; i < count; i++) {
+                    const t = (i / count) * Math.PI * 2;
+                    const x = 16 * Math.pow(Math.sin(t), 3);
+                    const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+                    
+                    const velocity = {
+                        x: x * 0.3,
+                        y: -y * 0.3
+                    };
+                    this.particles.push(new Particle(
+                        this.x, this.y,
+                        this.color,
+                        velocity,
+                        2,
+                        0.05,
+                        0.005
+                    ));
+                }
+            }
+
+            createSpiralExplosion(count) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (i / count) * Math.PI * 6;
+                    const radius = (i / count) * 50;
+                    const velocity = {
+                        x: Math.cos(angle) * (radius / 10),
+                        y: Math.sin(angle) * (radius / 10)
+                    };
+                    this.particles.push(new Particle(
+                        this.x, this.y,
+                        this.color,
+                        velocity,
+                        2,
+                        0.03,
+                        0.003
+                    ));
+                }
+            }
+
+            createCrossetteExplosion(count) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (i / count) * Math.PI * 2;
+                    const speed = 4;
+                    const velocity = {
+                        x: Math.cos(angle) * speed,
+                        y: Math.sin(angle) * speed
+                    };
+                    
+                    // Crossette effect - secondary explosion
+                    setTimeout(() => {
+                        for (let j = 0; j < 5; j++) {
+                            const secondaryVelocity = {
+                                x: velocity.x * 0.5 + (Math.random() - 0.5) * 2,
+                                y: velocity.y * 0.5 + (Math.random() - 0.5) * 2
+                            };
+                            this.particles.push(new Particle(
+                                this.x + velocity.x * 10,
+                                this.y + velocity.y * 10,
+                                this.color,
+                                secondaryVelocity,
+                                1,
+                                0.05,
+                                0.01
+                            ));
+                        }
+                    }, 500 + i * 10);
+                    
+                    this.particles.push(new Particle(
+                        this.x, this.y,
+                        this.color,
+                        velocity,
+                        2,
+                        0.05,
+                        0.01
+                    ));
+                }
+            }
+
+            createWillowExplosion(count) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.random() - 0.5) * Math.PI;
+                    const speed = 2 + Math.random() * 3;
+                    const velocity = {
+                        x: Math.cos(angle) * speed,
+                        y: Math.abs(Math.sin(angle) * speed)
+                    };
+                    
+                    // Willow effect - falling particles
+                    const particle = new Particle(
+                        this.x, this.y,
+                        this.color,
+                        velocity,
+                        3,
+                        0.02,
+                        0.002
+                    );
+                    particle.gravity = 0.05;
+                    particle.decay = 0.002;
+                    this.particles.push(particle);
+                }
+            }
+
+            draw() {
+                // Draw trail
+                ctx.save();
+                this.trail.forEach((point, i) => {
+                    ctx.globalAlpha = (this.maxTrail - i) / this.maxTrail * 0.5;
+                    ctx.strokeStyle = point.color;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    if (i > 0) {
+                        ctx.moveTo(this.trail[i-1].x, this.trail[i-1].y);
+                        ctx.lineTo(point.x, point.y);
+                    }
+                    ctx.stroke();
+                });
+                ctx.restore();
+                
+                // Draw rocket
+                if (!this.exploded) {
+                    ctx.save();
+                    ctx.fillStyle = this.color;
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 20;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+                
+                // Draw particles
+                this.particles.forEach(particle => particle.draw());
+            }
+        }
+
+        // Fireworks Manager
+        const fireworks = [];
+        let fireworkType = 'normal';
+        let isFireworksShow = false;
+
+        function launchFirework() {
+            const startX = Math.random() * canvas.width;
+            const startY = canvas.height;
+            const targetX = Math.random() * canvas.width;
+            const targetY = Math.random() * canvas.height * 0.3 + 100;
+            
+            const firework = new Firework(startX, startY, targetX, targetY, fireworkType);
+            fireworks.push(firework);
+            
+            if (soundEnabled) {
+                launchSound.currentTime = 0;
+                launchSound.play();
+            }
+        }
+
+        function launchMegaFirework() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const startX = canvas.width / 2 + (Math.random() - 0.5) * 200;
+                    const startY = canvas.height;
+                    const targetX = canvas.width / 2 + (Math.random() - 0.5) * 400;
+                    const targetY = canvas.height * 0.2 + 100;
+                    
+                    const megaFirework = new Firework(startX, startY, targetX, targetY, 'mega');
+                    megaFirework.color = CONFIG.fireworkColors[i % CONFIG.fireworkColors.length];
+                    fireworks.push(megaFirework);
+                    
+                    if (soundEnabled && i === 0) {
+                        launchSound.currentTime = 0;
+                        launchSound.volume = 0.5;
+                        launchSound.play();
+                    }
+                }, i * 200);
+            }
+        }
+
+        function startFireworksShow() {
+            isFireworksShow = true;
+            const showDuration = 10000; // 10 seconds
+            
+            const interval = setInterval(() => {
+                if (fireworks.length < 50) {
+                    launchFirework();
+                }
+            }, 200);
+            
+            setTimeout(() => {
+                clearInterval(interval);
+                isFireworksShow = false;
+            }, showDuration);
+        }
+
+        function setFireworkType(type) {
+            fireworkType = type;
+            document.querySelectorAll('.firework-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Animation Loop
+        function animate() {
+            // Clear with fade effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Random background sparkles
+            if (Math.random() < 0.1) {
+                const sparkle = {
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    alpha: Math.random() * 0.5 + 0.5
+                };
+                
+                ctx.save();
+                ctx.globalAlpha = sparkle.alpha;
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(sparkle.x, sparkle.y, sparkle.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+            
+            // Update and draw fireworks
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                fireworks[i].update();
+                fireworks[i].draw();
+                
+                if (fireworks[i].exploded && fireworks[i].particles.length === 0) {
+                    fireworks.splice(i, 1);
+                }
+            }
+            
+            // Auto-launch fireworks during show
+            if (isFireworksShow && Math.random() < 0.1) {
+                launchFirework();
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Timer Functions
+        let autoCloseTime = CONFIG.splashDuration;
+        let timeUntilNextSplash = CONFIG.rotationInterval;
+
+        function startTimers() {
+            // Auto-close timer
+            const autoCloseElement = document.getElementById('autoCloseTime');
+            const autoCloseInterval = setInterval(() => {
+                autoCloseTime--;
+                autoCloseElement.textContent = autoCloseTime;
+                
+                if (autoCloseTime <= 0) {
+                    clearInterval(autoCloseInterval);
+                    closeSplash();
+                }
+            }, 1000);
+            
+            // Countdown timer
+            const countdownElement = document.getElementById('countdownTimer');
+            const countdownInterval = setInterval(() => {
+                timeUntilNextSplash--;
+                
+                const hours = Math.floor(timeUntilNextSplash / 3600);
+                const minutes = Math.floor((timeUntilNextSplash % 3600) / 60);
+                const seconds = timeUntilNextSplash % 60;
+                
+                countdownElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeUntilNextSplash <= 0) {
+                    timeUntilNextSplash = CONFIG.rotationInterval;
+                }
+            }, 1000);
+            
+            // Random fireworks launch
+            setInterval(() => {
+                if (!isFireworksShow && fireworks.length < 20) {
+                    launchFirework();
+                }
+            }, 3000);
+        }
+
+        // Control Functions
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = event.target;
+            btn.textContent = soundEnabled ? '🔊 SOUND ON' : '🔈 SOUND OFF';
+            btn.style.background = soundEnabled ? 
+                'linear-gradient(45deg, #FF4500, #FFD700)' : 
+                'linear-gradient(45deg, #666, #999)';
+        }
+
+        function closeSplash() {
+            // Add closing animation
+            document.querySelector('.splash-container').style.animation = 'fadeOut 0.5s forwards';
+            
+            // Create explosion effect
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const x = canvas.width / 2;
+                    const y = canvas.height / 2;
+                    const velocity = {
+                        x: (Math.random() - 0.5) * 20,
+                        y: (Math.random() - 0.5) * 20
+                    };
+                    
+                    const particle = new Particle(x, y, '#FFD700', velocity, 5, 0.2, 0.02);
+                    fireworks.push({ particles: [particle], update: () => {}, draw: () => {} });
+                }, i * 10);
+            }
+            
+            setTimeout(() => {
+                // In real implementation, redirect to main site
+                console.log('Redirecting to main website...');
+                // window.location.href = 'https://your-company.com';
+            }, 1000);
+        }
+
+        // Initialize
+        function init() {
+            // Set year
+            document.getElementById('yearDisplay').textContent = CONFIG.nextYear;
+            
+            // Set company info
+            document.getElementById('companyName').textContent = CONFIG.company.name;
+            document.getElementById('companyMessage').textContent = CONFIG.company.message;
+            
+            // Start animations
+            animate();
+            startTimers();
+            
+            // Launch initial fireworks
+            for (let i = 0; i < 10; i++) {
+                setTimeout(launchFirework, i * 300);
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+            
+            // Keyboard controls
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    launchFirework();
+                }
+                if (e.code === 'KeyM') {
+                    launchMegaFirework();
+                }
+                if (e.code === 'Escape') {
+                    closeSplash();
+                }
+            });
+            
+            // Click anywhere to launch firework
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('control-btn') || 
+                    e.target.classList.contains('firework-btn')) return;
+                
+                const targetX = e.clientX;
+                const targetY = e.clientY;
+                const firework = new Firework(
+                    canvas.width / 2,
+                    canvas.height,
+                    targetX,
+                    targetY,
+                    fireworkType
+                );
+                fireworks.push(firework);
+                
+                if (soundEnabled) {
+                    launchSound.currentTime = 0;
+                    launchSound.play();
+                }
+            });
+        }
+
+        // Start everything
+        window.addEventListener('load', init);
+        
+        // Add fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to { opacity: 0; transform: scale(0.9); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
