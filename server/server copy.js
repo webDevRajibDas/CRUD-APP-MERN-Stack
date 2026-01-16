@@ -1,46 +1,56 @@
-// server.js
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-require("dotenv").config()
+const {xss} = require('express-xss-sanitizer');
+const mongoSanitize = require('./middleware/sanitize');
 
-const express = require("express")
-const mongoose = require("mongoose")
-const cors = require("cors")
-const bodyParser = require("body-parser")
+const routes = require('./routes');
+const passport = require('passport');
+const {jwtStrategy} = require('./middleware/passport')
+const {handleError, convertToApiError} = require('./middleware/apiError')
 
-const app = express()
+// ===== BODY PARSING (MUST BE FIRST) =====
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-/* Middleware */
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 
-/* MongoDB Connection */
-const MONGO_URI = process.env.MONGO_URI
+// Sanitize
+app.use(xss());
+app.use(mongoSanitize());
+app.use(passport.initialize());
+passport.use('jwt', jwtStrategy)
 
-if (!MONGO_URI) {
-  throw new Error("MONGO_URI is not defined in .env")
-}
+// ===== ROUTES =====
+app.use('/api', routes);
 
-mongoose
-  .connect(MONGO_URI, {
-    autoIndex: true,
-  })
-  .then(() => {
-    console.log("MongoDB connected")
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err)
-    process.exit(1)
-  })
 
-/* Health Check */
-app.get("/health", (_req, res) => {
-  res.status(200).json({ status: "ok" })
+
+
+//ERROR HANDLING
+app.use(convertToApiError);//13
+app.use((err, req, res, next) => {
+  handleError(err, res)
 })
 
-/* Server */
-const PORT = process.env.PORT || 5000
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+// ===== DATABASE =====
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`MongoDB Error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+connectDB();
+
+// ===== SERVER =====
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

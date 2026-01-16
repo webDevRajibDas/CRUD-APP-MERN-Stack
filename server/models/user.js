@@ -73,16 +73,7 @@ userSchema.methods.generateAuthToken = function(){
     return token;
 }
 
-// userSchema.methods.generateAuthToken = function () {
-//     return jwt.sign(
-//         {
-//             sub: this._id.toString(),
-//             email: this.email
-//         },
-//         process.env.JWT_SECRET,
-//         { expiresIn: '1d' }
-//     );
-// };
+
 
 // Compare password for login
 userSchema.methods.comparePassword = async function (password) {

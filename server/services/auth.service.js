@@ -1,11 +1,13 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 const userService = require('./users.service');
+const { ApiError } = require('../middleware/apiError');
+const { status } = require('http-status');
 const createUser = async(email,password,firstname,lastname)=>{
     try {
 
         if(await User.emailTaken(email)){
-            throw new Error('Sorry email Taken')
+            throw new ApiError(status.BAD_REQUEST,'Sorry email Taken');
         }
         const user = new User({
             email,
@@ -23,12 +25,7 @@ const createUser = async(email,password,firstname,lastname)=>{
 }
 
 
-const genAuthToken = (user) => {
-    if (!user || !user.generateAuthToken) {
-        throw new Error('Invalid user object');
-    }
-    return user.generateAuthToken();
-};
+
 
 /**
  * Sign in user with email and password
@@ -41,11 +38,11 @@ const signInWithEmailAndPassword = async(email, password)=>{
     try {
         const user = await userService.findUserByEmail(email)
         if(!user){
-            throw new Error('Sorry Bad email')
+            throw new ApiError(status.BAD_REQUEST,'Sorry Bad email');
         }
         /// validate password
         if(!(await user.comparePassword(password))){
-            throw new Error('Sorry bad password')
+            throw new ApiError(status.BAD_REQUEST,'Sorry bad password');
         }
         return user;
 
@@ -66,6 +63,13 @@ const generateToken = (user) => {
         { expiresIn: '1d' }
     )
 }
+
+const genAuthToken = (user) => {
+    if (!user || !user.generateAuthToken) {
+        throw new Error('Invalid user object');
+    }
+    return user.generateAuthToken();
+};
 
 // GitHub upload next
 

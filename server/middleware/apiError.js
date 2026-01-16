@@ -1,20 +1,16 @@
 const mongoose = require('mongoose');
 const { status } = require('http-status');
 
-class AppError extends Error {
-    constructor(message, statusCode) {
-        super(message);
+class ApiError extends Error {
+    constructor(statusCode,message){
+        super();
         this.statusCode = statusCode;
-        this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
-        this.isOperational = true;
-
-        Error.captureStackTrace(this, this.constructor);
+        this.message = message;
     }
-
 }
 
-const handleError = (err, res) => {
-    const {statusCode , message } = err;
+const handleError = (err,res) => {
+    const {statusCode, message } = err;
     res.status(statusCode).json({
         status:'error',
         statusCode,
@@ -22,7 +18,18 @@ const handleError = (err, res) => {
     })
 }
 
+const convertToApiError = (err,req,res,next) => {
+    let error = err;
+    if(!(error instanceof ApiError)){
+        const statusCode = error.statusCode || error instanceof mongoose.Error ? status.BAD_REQUEST: status.INTERNAL_SERVER_ERROR;
+        const message = error.message || status[statusCode]
+        error = new ApiError(statusCode,message)
+    }
+    next(error)
+}
+
 module.exports = {
+    ApiError,
     handleError,
-    AppError
+    convertToApiError
 }
